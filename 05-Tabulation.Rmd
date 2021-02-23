@@ -1,0 +1,82 @@
+# Frequency and cross tabulation
+
+Nominal data require a different approach. Rather than summary statistics, the relevant information here is the frequency with which each value or category appears in the data. Here we cover how to analyze data for a single nominal variable (e.g. frequency tables and bar charts) and how to evaluate relationships between nominal variables (cross-tabulation).
+
+Note that you will need the `film` data (`biopics.xls`) to replicate the examples in this chapter.
+
+
+## Describing one variable
+
+### Frequency tables
+The `count()` function in `tidyverse` creates a tibble with each value of the variable and the "count" of observations within. 
+
+```{r rawtab, eval=TRUE}
+# Frequency table
+  Tab =
+    film %>%   # the dataset
+    count(SubjectSex) # the variable to count
+  
+  Tab
+```
+
+Calculating the the percent of total cases in each category (relative frequency) requires an extra line of code (`mutate(Percent = 100 * n/sum(n))`).
+
+```{r reltab, eval=TRUE}
+# Relative frequency
+  Tab = 
+    Tab %>%
+    mutate(Percent = 100 * n/sum(n))
+  
+  Tab
+```
+
+### Bar charts
+Use a basic `barplot()` to display the results saved into these objects (`rawTab`). Note the notation here is `barplot(count ~ category, data)`:
+
+```{r bargraph, eval=TRUE, out.width="70%", fig.align='center'}
+  barplot(n ~ SubjectSex, Tab)
+
+  barplot(Percent ~ SubjectSex, Tab)
+```
+
+
+## Cross-tabulation
+There is a three-step process for presenting and evaluating the association between two nominal variables. The first step is to create a basic cross-tabulation of the joint frequency using the `count()` function. Here we consider the possibility that the representation of female subjects in biopics (`SubjectSex`) has changed over time (`Period`).
+
+```{r xtabct, eval=TRUE}
+# Raw cross-tabulation
+  xtab =
+    film %>% 
+    count(SubjectSex,Period) %>%  # (OutcomeVar,ExposureVar)
+    na.omit() %>% # drop NA categories
+  # now organize results into a 2-way table
+    pivot_wider(
+      names_from = Period, # MUST be the ExposureVar
+      values_from = n, 
+      values_fill = 0
+    )
+
+  xtab
+```
+
+Second, use `chisq.test()` to conduct a $\chi^2$ test of independence. Specify the contingency table created above and add `[-1]` to exclude the first column (category names) from the calculation/
+
+```{r chi2, eval=TRUE}
+  chisq.test(xtab[-1])
+```
+
+Based on these results, the given sex of biopic subjects is independent of (ie does not differ systematically across) time period. The relationship is not statistically significant ($\chi^2(2,N=761)=0.40$, $p=0.81$).
+
+Finally, to present the results of a cross-tabulation, convert the raw frequencies in your table to percentages (within categories of the the exposure variable). Start by calling the raw tabulation from above.
+
+```{r xtabrel, eval=TRUE}
+# Relative freq for presentations  
+  xtab %>%
+  # add a row total
+    mutate(Total = rowSums(.[-1])) %>%
+  # convert to percentage
+    mutate_at(-1, ~ round(100 * ./sum(.), digits=1))
+```
+
+Copy and paste the table into your document. Then format appropriately (e.g. category labels) for final presentation.
+

@@ -1,0 +1,58 @@
+# Basics of R Programming
+
+## Thinking like R 
+R is built in the paradigm of Object-Oriented Programming. It uses a system of objects (which contain information) and functions that operate on objects (by manipulating them in a certain way, extracting information from or about them, calculating statistics or plotting graphs based on their data, etc). Objects are identified by names, which must start with a letter, not overwrite an already-defined object, and not include any spaces.
+
+## Objects
+Objects are created by assigning them a value using the object name, followed by an assignment operator (i.e. `=` or `<-`), followed by either the information they should contain or instructions for importing information from another file. Entering information without assigning it to an object simply prints the output to the console; by assigning it a name it is possible to work with it. 
+
+````{r objintro,eval=TRUE}
+  1:4               # prints a sequence of integers
+     
+  MyObject = 1:4    # assigns the sequence to a new object, myObject
+````
+
+To report the contents of an object, enter the object name on a line and execute that line.
+
+```{r objprint,eval=TRUE}
+  MyObject
+```
+
+Objects no longer needed can be removed from the workspace using `remove()` In this case:
+
+```{r objrm,eval=TRUE}
+  remove(MyObject)
+```
+
+
+## Functions in R
+Functions operate on objects. Call on a function by using the name of the function followed by parenthesis, within which are the arguments the function takes, i.e. `SomeFunction(args)`. Each function has its own set of arguments that tell it what object(s) to act on and what to do with them.
+
+For example: the concatenate function `c(item1,item2,...)` combines a series of elements into a single (vector) object, and takes as its arguments the elements to be included.
+
+```{r funs1,eval=TRUE}
+  c(1,2,3,4)   # combine integers
+
+  a = 1:4      # create new objects, a and b         
+  b = 5:7
+  
+  c(a,b)       # combine objects
+```
+
+## The Pipe Operator
+The pipe operator `%>%` from the `tidyverse` package strings together a series of functions into a single command. It will take the output from the first function and use it as the input for the second, take the output from the second as input for the third, etc. For example, creating a sequence from 0 to 100 with intervals of 2, calculating the sum of these numbers, and calculating (and printing) the square root of this sum, can be done in three ways.
+
+```{r piping,eval=TRUE}
+  a = seq(0,100,2) 
+  b = sum(a)
+  c = sqrt(b)
+  c
+     
+  sqrt(sum(seq(0,100,2)))
+
+  seq(0,100,2) %>%   # pipes the sequence forward   
+    sum() %>%        # take the sum of the sequence; pipe forward 
+    sqrt()           # square root
+```
+
+The pipe operator becomes a very useful feature as you move to performing complex, multi-step operations. It allows carrying out a series of manipulations to an object without having to create a new named object each step of the way, or getting lost in endless nesting of parentheses within a command.

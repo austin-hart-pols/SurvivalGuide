@@ -1,0 +1,94 @@
+# Regression analysis
+
+Regression is a powerful tool for estimating the relationship between an outcome (or dependent) variable and one or more exposure (or independent) variables. Here we cover how to estimate and present regression models in `R`.
+
+Note that you will need the `dcps` (`"DCPS testing.RData"`) dataset to replicate the output in this chapter.
+
+## Correlation
+To calculate the correlation coefficient (`r`) between two numeric variables, use the `cor.test()` function and specify the model as `~ Var1 + Var2`. This structure is unusual in that both variables follow the `~`, and the `+` separates the two.
+
+```{r corchunk, eval=TRUE, results = 'markup'}
+  cor.test(~ ProfMath + ProfLang, dcps)
+```
+Perhaps not surprisingly, the results suggest that math and language proficiency are positively and strongly correlated ($r=0.91$). It is unlikely we observe this association by chance alone ($t=22.4$, $p<0.001$).
+
+Use a scatterplot (`plot()`) to visualize this bivariate association. Be sure to specify the formula as `OutcomeVar ~ ExposureVar`:
+
+```{r fits, eval=TRUE,out.width="70%",fig.align='center'}
+  plot(ProfMath ~ ProfLang, dcps)
+```
+
+
+## OLS regression
+Estimating a regression model using OLS is simple in R. Using the `lm()` function will estimate a model with one or more independent variables. Simply specify the formula using the syntax: `Y ~ X1 + X2`.
+
+```{r lmest, eval=TRUE}
+# Bivariate (unconditional) estimate
+  Model1 <- lm(ProfMath ~ ProfLang, data = dcps)
+
+# Multivariate (conditional) estimate
+  Model2 <- lm(ProfMath ~ ProfLang + NumTested, data = dcps)
+```
+
+To view the coefficient estimates and evaluate hypotheses about the relationship, apply the `summary()` function to the model object.
+
+```{r lmsum, eval=TRUE}
+  summary(Model1)
+
+  summary(Model2)
+```
+
+Notice in each that the independent variables define the rows. In `Model2`, the estimated slope coefficient for `ProfLang` is 0.89 with a p-value less than 0.001. This means that on average and net of the number of students tested, a 1-percentage-point increase in language proficiency is associated with a 0.89-percentage-point increase in math proficiency. The association is statistically significant ($p<0.001$). We might also note that the variables in the model account for almost 90% of observed variation in math proficiency across DC Public Schools ($Adj~R^2=0.83$).
+
+## Scatter with linear fit
+We use a scatter plot with linear fit to visualize the bivariate (unconditional) linear associations. First create the scatter with `plot()` and then overlay the regression line from stored estimates using `abline()`. Be sure to run these lines together or in succession:
+
+```{r fits2, eval=TRUE,out.width="70%",fig.align='center'}
+  plot(ProfMath ~ ProfLang, dcps) # basic scatter
+  abline(Model1)   # Add stored linear estimate
+```
+
+## Logistic regression
+With a binary outcome measure, logistic regression is generally more appropriate than linear (OLS) regression. Use the `glm()` function to estimate a generalized model, and specify the model family as `binomial` within the arguments.
+
+```{r logit, eval=TRUE}
+# create binary measure of "above average math proficiency"
+  dcps =
+    dcps %>%
+    mutate(AboveAvgMath = if_else(ProfMath > mean(ProfMath),1,0))
+
+  Model3 = 
+    glm(
+      AboveAvgMath ~ ProfLang + NumTested,  # specify model
+      family = 'binomial',  # logistic estimation
+      data = dcps
+    )
+```
+
+To view the coefficient estimates and evaluate hypotheses, again apply the `summary()` function to the model object.
+
+```{r logitsum,eval=TRUE}
+# View estimates
+  summary(Model3)  
+
+# Odds ratios
+  exp(coef(Model3))
+```
+
+The results indicate that a percentage-point increase in a school's language proficiency is expected to raise the odds of being above average in math by 12%, conditional on the number of students tested. Again, the increase is significant ($p < 0.001$).
+
+
+## Making regression tables
+Use the `stargazer()` function to transform messy `R` regression estimates into professional and exportable regression tables. Be sure you have installed and loaded the `stargazer` package. Then simply specify the model estimates to include. 
+
+```{r starg, eval=TRUE,warning=FALSE, message=FALSE}
+  library(stargazer)
+  
+  stargazer(
+   Model1, Model2,    # stored estimates to include in the table
+   type = 'text',    
+   keep.stat = 'n'   # add #obs from each model
+  ) 
+```
+
+You can copy and paste these into a program like Excel or Word, and have a nice table with only a few edits.

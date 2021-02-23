@@ -1,0 +1,47 @@
+--- 
+title: "Survival Guide: Conquering R and living through SIS 600"
+author:
+  - Austin Hart
+  - Dave Ohls
+date: "`r Sys.Date()`"
+colorlinks: yes
+lot: yes
+lof: yes
+fontsize: 12pt
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: krantz
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: austin-hart-pols/SurvivalGuide
+description: "A beginner's guide to mastering R/RStudio and SIS 600."
+---
+
+```{r setup, include=FALSE}
+options(
+  htmltools.dir.version = FALSE, formatR.indent = 2,
+  width = 55, digits = 4, warnPartialMatchAttr = FALSE, warnPartialMatchDollar = FALSE
+)
+
+local({
+  r = getOption('repos')
+  if (!length(r) || identical(unname(r['CRAN']), '@CRAN@'))
+    r['CRAN'] = 'https://cran.rstudio.com' 
+  options(repos = r)
+})
+
+lapply(c('DT', 'citr', 'formatR', 'svglite', 'rticles'), function(pkg) {
+  if (system.file(package = pkg) == '') install.packages(pkg)
+})
+
+knitr::opts_chunk$set(eval = FALSE, echo = TRUE, dev = 'jpeg', dpi = 500, class.source="mychunk",collapse=FALSE)
+
+knitr::opts_knit$set(root.dir = 'C:\\Users\\ahart\\Documents\\SIS600')
+```
+
+# Preface {-}
+There are hundreds of R guides available online. This is the only one written specifically for students in SIS600 at American University. It introduces the basics of R for data analysis for graduate students with no prior experience in R or statistical computing more broadly. While it will not answer all of your questions about `R`, we hope you will find it a useful companion to lectures, assignments, and other course materials.
+
+We regularly update this guide. If you find errors, bugs, or otherwise have suggestions about how to enhance the user experience, let us know. Just send us an email at ahart@american.edu or ohls@american.edu.
+

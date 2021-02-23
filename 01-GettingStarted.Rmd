@@ -1,0 +1,115 @@
+# Getting Started with R and RStudio
+
+R is a language for statistical computing. It's dynamic. It's powerful. It's free! RStudio is a front end program that interfaces with R. It's sleek. It makes R much easier to use. It's also free! Both are easy to install. Just be sure to install R first.
+
+## Installing the software
+Start by installing R on your computer. [Go to the R website](https://www.r-project.org/) and click on "download R" in the Getting Started section. Find a mirror site of your choice (we use Statlib at Carnegie Mellon, but do whatever you like). From there click on your operating system and follow the instructions for running the Setup Wizard. Windows users: you want the "base" distribution.
+
+After you complete the R installation, it's time to get RStudio. [Go to the RStudio site](https://rstudio.com/) and click "Download RStudio." From there, select the RStudio Desktop, Open Source License. Select the appropriate installer for your platform, and install. 
+
+## The RStudio Interface
+When you open RStudio, you'll see an interface like the one shown below. It's possible that the four windows highlighted in the image will be in a different order. Note that you can change the size of the windows by dragging the panes separating them. 
+
+```{r interface, echo=FALSE, eval=TRUE, out.width = '90%',fig.align = 'center', fig.cap="RStudio Interface"}
+knitr::include_graphics("C:\\Users\\ahart\\Dropbox\\SIS 600 AH\\SurvivalGuide\\rstudiowindow.jpg")
+```
+
+The source pane is where you'll write individual scripts: the collections of R code chunks that constitute your analysis. The console is where R evaluates the code you choose to execute. Each code chunk in the console begins with the symbol `>`, and the output from each chunk is printed below it. For example, type `2+10/5` into the console and hit enter.
+
+````{r simple, eval=TRUE, collapse=TRUE}
+  2 + 10/5
+````
+The environment pane displays the objects (dataframes, graphs, lists, etc) available. Finally, the plots/help panel displays your graphs, help files, and more. For example, load a built`-`in data frame and create a simple histogram. Type and execute the code below:
+
+```{r histex, eval=TRUE, out.width="70%",fig.align = 'center'}
+  IrisData = iris
+
+  hist(IrisData$Petal.Width)
+```
+
+Notice that the data frame `IrisData` is now listed in the environment pane. The histogram is displayed in the plot window.
+
+
+## Code chunks
+
+### Writing and executing
+Open RStudio, and create a new R Script file (click the icon near the upper left that looks like a piece of paper with a green plus on it). Type the following lines into the script:
+
+```{r trial,eval=TRUE}
+  x = rnorm(n = 1000, mean = 10, sd = 4)
+  mean(x)
+```
+
+Execute a command from your script by clicking within the line with your mouse (or click on the line number, or click and drag to select multiple lines at once) and clicking Run (Ctrl + Enter). You can execute lines one at a time or as a group. Try executing the lines above. Compare your output. It's probably very close but not exactly the same! No worries---the first line creates a random normal distribution.
+
+### Commenting with &#35;
+It's important to add comments throughout your script. These can function as section headers, or as notes to your future self/colleagues on what you were attempting to do. R treats anything after the `#` sign as a comment and ignores it when executing commands. For instance:
+
+````{r comment}
+# Practice executing commands    
+  x = rnorm(n = 1000, mean = 10, sd = 4)  # create a new object, x
+  mean(x)                                 # calculate the mean of it
+````
+
+## R Packages
+
+R's advanced functionality comes from the use of packages---user-defined programs (like apps on a phone)---that enable it to carry out particular tasks. We rely largely on a suite of packages called the `tidyverse`.
+
+### Installing packages
+ To install the `tidyverse` (or any package), use the command `install.packages('packageName')` in your script or console. Be sure to include the name of the package in quotes. Note that the `tidyverse` will take several minutes to install:
+
+```{r install}
+  install.packages('tidyverse')
+```
+
+Just like installing an app on your phone, you only install a package once. After it downloads and unpacks, you never have to do it again.
+
+### Loading packages for use
+You only have to install a package once, but you must load it in each R session to use it. Call the desired package using the command `library(packagename)`. It's a good idea to start any R script by loading frequently-used packages, especially `tidyverse`:
+
+```{r library, eval = TRUE}
+  library(tidyverse)
+```
+```{r hidden, results='hide',echo=FALSE, message=FALSE, warning=FALSE,eval = TRUE}
+  library(magrittr)
+```
+
+Note that you can also call a specific function without loading the entire package that defines it. For example, `haven::read_dta()` executes the `read_dta()` function from the `haven` package without loading the package itself.
+
+## Setting a directory
+Every data project needs a home. Your working directory is the folder on your computer from which R will load data, images, etc and to which it will save your output. It's important to designate your working directory at the beginning of any script using the `setwd('filepath')` command. For example:
+
+```{r wd}
+  setwd('C:\\Users\\ahart\\Documents\\SIS600')
+```
+
+This is where you should save the data sets for your project. Note the use of the double backslash, `\\`, when specifying the directory. Note also that this path only works on MY computer! You'll have to specify your own path. Don't know your path? No problem. Navigate to your project folder on your computer. Similar to the left-hand panel below, you may have the option to copy the path from a button. Alternatively, right-click on your data set, and use options like "Properties" or "Copy path as text" to get the path. 
+
+```{r pathfind, echo=FALSE, eval=TRUE, out.width = '90%',fig.align = 'center', fig.cap="Finding your directory's path"}
+knitr::include_graphics("C:\\Users\\ahart\\Dropbox\\SIS 600 AH\\SurvivalGuide\\settingwd.jpg")
+```
+
+In either case, you can copy the path and paste into `setwd()` in your R session. Don't forget to mind your quotes and slashes! 
+
+If you're unsure about the current directory, check using the `getwd()` function:
+```{r getwd, eval = TRUE}
+  getwd()
+```
+
+You can verify that the correct files are there using `list.files()`:
+
+```{r listfiles, eval = TRUE}
+  list.files()
+```
+
+Note that my list includes the two companion data sets to this guide. If you don't see them after you run `list.files()`, confirm that you downloaded the data to your computer and move them to your project folder.
+
+## Getting help with R
+Documentation within R is sometimes helpful, sometimes less so. To see the help file for a given command, enter `help(command)`, or (equivalently) `?command`. These will bring up a tutorial with a basic description, usage, arguments, syntax, and other notes about the command. For example, to get help with setting a working directory:
+
+```{r help}
+  help(setwd)
+  ?setwd
+```
+
+If that fails, ask the internet by searching Google or <https://rseek.org/>, a search engine dedicated specifically to results about R.

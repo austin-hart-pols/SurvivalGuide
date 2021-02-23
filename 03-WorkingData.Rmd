@@ -1,0 +1,93 @@
+# Working with data
+
+Typically, a dataset will take the form of a data frame (or a tibble) where each column is a vector representing a single variable and each row (i.e. each corresponding position within those vectors) represents a single observation. Each element, then, is the value a particular observation takes on for that particular variable.
+
+Note that you will need access to the `DCPS testing.RData` and `biopics.xls` data sets to follow along in this chapter.
+
+## Importing data
+One of the biggest challenges for first-time `R` users is importing a dataset. Though the process is similar, the specific functions for loading data depend on the format of your data. Here we cover how to import the most common types of data files. 
+
+### R data (.rdata)
+The file extension for a data frame saved in `R` is `.RData`. An object can be opened using the `load('filename')` command. Test this out by loading the `DCPS testing.RData` data.
+
+````{r rdata, eval = TRUE}
+  load('DCPS testing.RData')
+````
+
+Note that this works only if the dataset is saved in the working directory. If not, you need to specify the complete file path in this command.
+
+### Delimited (.csv) files
+Often the datasets you work with will not be in `.rdata` format, or it will be more convenient to store them in another format so that you can create or work with them using other software. The simplest option is to work with Comma-Separated Values (.csv) files. To import data from a `.csv` file, use the `read_csv('filename')` function defined within `tidyverse`.
+
+```{r csvdata}
+  myCSV <- read_csv('csvData.csv')
+```
+
+### Excel (.xls, .xlsx) files
+To import data from Excel (`.xlsx` or `.xls`), use the `read_excel('filename')` function defined in the `readxl` package. Note that `readxl` installs automatically with the `tidyverse`, but you have to load it separately. Practice this command by loading the `biopic.xls` data required for this guide.
+
+````{r xlsdata, eval = TRUE}
+  library(readxl)
+
+  film <- read_excel('biopics.xls')
+````
+
+If it does not load, verify that the dataset is saved in your working directory.
+
+### Stata (.dta) or SPSS (.sav) files
+To import datafiles written in Stata (`.dta`) or SPSS (`.sav`), we rcommend using the `read_dta('filename')` and `read_spss('filename')` functions defined in the `haven` package. Note that `haven` is part of the `tidyverse`, but you must load it separately.
+
+````{r haven}
+  library(haven)
+
+  myStata <- read_dta('stataData.dta') # Stata format
+  mySPSS <- read_spss('spssData.sav') # SPSS format
+````
+
+## A first look at your data
+You can use the `names()` function to see a list of variables (names and column number) in your data frame.  
+
+Use the `head()` function to preview the first rows of a data frame. 
+
+To view the entire data frame, either click on the object in the "Data" window or use `View()`.
+
+```{r peeking, eval=TRUE}
+  names(dcps)  # identify variable names
+
+  head(dcps)   # see the first few rows of data
+```
+
+## Referencing variables of a data frame
+A data frame (or tibble) is a two-dimensional structure in which each variable forms a column and each observation forms a row. Each element is the value that a given observation takes on for a particular variable. 
+
+How do you reference or identify the variables in a data frame (e.g. to calculate the mean number of students tested, `NumTested` from the `dcps` schools data)? The `$` and `[[` extraction operators both pull variables from a dataframe or items from a list. Note that `$` requires the variable name, whereas `[[` allows you to use either the variable's name (in quotes) or column number in the data frame. Do what you want. I prefer `[[` for anyone in more advanced programming, but I'll typically use `$` in this course.
+
+````{r extraction, eval=TRUE}
+# Extract the variable (all observations)
+  dcps$NumTested
+
+# Mean on a variable (3 ways)
+  mean(dcps$NumTested) # object$variable
+  
+  mean(dcps[['NumTested']]) # object[['variable']]
+  
+  mean(dcps[[4]]) # object[[column#]]
+````
+
+
+## Saving your work
+Always save your work! Early and often! This is true both of both your scripts and your data sets. R will ask if you want to save your "workspace" when you close the session, and you should not. Save your script instead.
+
+### Saving an R script
+To save you `.r` script file in `RStudio`, go to File - Save (or Save As...). 
+
+### Saving a data frame
+To save a data frame as a `.rdata` data file, use the `save(object,'filename')` command. To save a data frame as (i.e. write it onto) a `.csv` file, use the `write_csv(object, 'filename')` command and enter the name of the object and the file name. 
+
+```{r saving}
+  save(myData, file = 'sampledata.rdata')      # to save as an Rdata file
+
+  write_csv(myData, file = 'sampledata.csv')   # to write onto a .csv file
+```
+
+As always, these actions will write the new file to your working directory. If you have not specified a working directory, or if you want to save elsewhere, specify the complete path name here. 

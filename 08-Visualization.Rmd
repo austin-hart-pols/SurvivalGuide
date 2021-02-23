@@ -1,0 +1,94 @@
+# Basic visualization
+
+Note that you will need the `dcps` data (`"DCPS testing.RData"`) to replicate the commands.
+
+## Graphing in base R
+Data visualization is a notable strength of R, and its native (`base`) capabilities allow you to create high quality, straightforward graphs.
+
+### Describe one variable
+Summarizing briefly what we presented in prior chapters, presenting data on a single variable is primarily a matter of understanding what type of measure you have. Using the `dcps` data: 
+
+```{r basesum1, eval=TRUE, out.width="70%",fig.align='center'}
+# Histogram (numeric X)
+  hist(dcps$NumTested)
+  
+# Boxplot (numeric X)  
+  boxplot(dcps$ProfMath, horizontal = TRUE)
+
+# Bar plot (nominal X)
+  # 1. relative frequency table
+    tab = 
+      dcps %>%
+      count(SchType) %>%
+      mutate(Percent = 100 * n/sum(n))
+    
+  # 2. barplot from table
+    barplot(Percent ~ SchType, data = tab)
+```
+
+### Visualizing relationships
+For visualizing relationships between variables:
+
+```{r basesum2, eval=TRUE, out.width="70%",fig.align='center'}
+# Group comparison (numeric X, nominal Y)
+  boxplot(NumTested ~ SchType, data = dcps)
+  
+# Scatter plot (numeric X, numeric Y)
+  plot(ProfLang ~ SchType, data = dcps)
+
+# Scatter w/OLS fit (numeric X, numeric Y)
+  # 1. store OLS estimates
+    est = lm(ProfLang ~ ProfMath, data = dcps)
+  # 2. plot  
+    plot(ProfLang ~ ProfMath, data = dcps) # scatter
+    abline(est) # add linear fit
+```
+
+## Professional formatting
+Formatting is what differentiates an exploratory graph from one you would present to others. The options for formatting an R graphic are almost limitless. However, of special importance are the descriptive text (e.g. titles), axis scales, and the graphical parameters (e.g. color and shape of the points).
+
+I suggest the [Quick-R Advanced Graphs page](https://www.statmethods.net/advgraphs/index.html) for more details and for more advanced examples.
+
+### Titles and labels
+Within the different plotting functions, you can specify the main title (`main =`), axis labels (e.g. `xlab =`), and more. Choose simple, descriptive labels and titles.
+
+```{r titles,eval=TRUE, out.width="70%",fig.align='center'}
+  hist(dcps$ProfLang,
+       main = "Language Proficiency, DCPS 2018",
+       xlab = 'Grade-level proficient (% tested)', ylab = 'Frequency')
+```
+
+### Axis options
+Sometimes the axis scales that R chooses don't make sense or fail to communicate effectively. In these cases, we want to format the endpoints, or limits, of each axis scale. You do this using `xlim` and `ylim`, which allow you to specify a custom minimum and maximum value on each axis (e.g. `xlim = c(min,max)`). Note that you must provide both using the appropriate syntax.
+
+```{r axes,eval=TRUE, out.width="70%",fig.align='center'}
+  plot(ProfLang ~ NumTested, data = dcps,
+       xlim = c(0,1500), ylim = c(0,100)) # boundaries on X and Y
+```
+
+### Graphical parameters
+Basic R graphs are clean and sparse; these are important advantages. However, we may want to spice things up beyond the simple black and white. This is especially true in graphs with multiple components (e.g. a scatter plot with linear fit) where color/shape contrast is important to differentiate the elements. See below examples of changing fill color (`col`), border color (`border`), point shape (`pch`), line type (`lty`), and line width (`lwd`).
+
+```{r gparms,eval=TRUE, out.width="70%",fig.align='center'}
+# Histogram (or boxplot)
+  hist(dcps$ProfMath,
+       col = 'deeppink4', # fill color
+       border = 'gray25') # broder color
+
+# Scatter plots with fit
+  plot(ProfMath ~ ProfLang, data = dcps,
+       pch = 24,    # shape of the point
+       col = 'red') # point color
+  
+  abline(lm(ProfMath ~ ProfLang, data = dcps), 
+         col = 'cornflowerblue',
+         lty = 4, # line type (1-6)
+         lwd = 3) # line width (3=triple width)
+```
+
+## Exporting/saving graphs
+Once you have a formatted graph, it's time to export it. Find the `Export` button in the plot window and choose "Save as Image" (left-hand panel of the figure below). This opens the window shown in the right-hand panel. Here you want to select an appropriate format (typically `.jpeg`), name, and size. Size is crucial, and the target is the smallest possible without cutting out text. A size of 450x400 pixels is a pretty safe bet for most of what we do in this course.
+
+```{r gphsave, echo=FALSE, eval=TRUE, out.width = '85%',fig.align = 'center', fig.cap="Fortmat and export graphs"}
+knitr::include_graphics("C:\\Users\\ahart\\Dropbox\\SIS 600 AH\\SurvivalGuide\\gphexport.jpg")
+```

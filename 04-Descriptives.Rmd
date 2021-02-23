@@ -1,0 +1,107 @@
+# Descriptive statistics
+
+How do you summarize numeric data (continuous or discrete) and present your findings? Here we cover how to analyze data over a single numeric variable, both in isolation (e.g. basic summary statistics) and across discrete categories of another variable (e.g. group mean comparison).
+
+Note that you will need the `dcps` data (`DCPS testing.RData`) to replicate the examples in this chapter.
+
+## Describing one variable
+
+### Summary statistics
+A useful first step in analyzing the distribution of scores on a single numeric variable is to calculate the relevant summary statistics. Use the `summary()` function for a quick, general overview. This returns the minimum, mean, and maximum scores, as well as the score at 1st, 2nd (median), and 3rd quartiles.
+
+```{r summary, eval = TRUE}
+  summary(dcps)  # for every variable in the data frame
+
+  summary(dcps$ProfLang) # for a specific variable
+```
+
+For specific inquiries, use the `summarize()` function and customize your report. For example:
+
+```{r summarise, eval=TRUE}
+  dcps %>%   # start by piping in the dataset
+    summarize(
+      Avg = mean(ProfLang), # calculates the mean
+      StdDev = sd(ProfLang),   # standard deviation
+      Range = max(ProfLang) - min(ProfLang) 
+    )
+```
+
+### Graphing the distribution
+We typically use a histogram or box plot to visualize the distribution of scores on a numeric variable.
+
+```{r descPlots, eval=TRUE, out.width="70%", fig.align='center'}
+# Basic histogram
+  hist(dcps$ProfLang)
+
+# Basic boxplot
+  boxplot(dcps$ProfLang, horizontal = TRUE)
+```
+
+See the chapter on data visualization to learn how to format these graphs appropriately for academic or professional settings.
+
+### Testing hypotheses
+A one-sample $t-$test (`t.test()`) compares the observed mean on a numeric variable to a hypothesized mean. The resulting $p$-value indicates the probability of observing the mean in your data from a population defined by the null hypothesis (`mu = `).
+
+For example, evaluate the argument that at least half of DC public school pupils read at or above grade level (i.e. $H_0:~\mu \geq 50$).
+
+```{r t1, eval = TRUE}
+  t.test(dcps$ProfLang, mu = 50, alternative = 'less')
+```
+
+The test results suggest that it is extremely unlikely ($t=-8.6$, $p<0.001$) that we would observe these data if the majority of DC public school pupils read at or above grade level. We can reject the null hypothesis. 
+
+
+## Omitting missing values
+
+If some observations have missing data (coded `NA`) on a given variable, summary statistic functions may yield an error. To ignore any missing values in carrying out calculations, include the argument `na.rm=TRUE` in the function.
+
+```{r nas, eval=TRUE}
+  a = c(1,3,5,NA,7)
+
+  mean(a) # Operation fails
+  
+  mean(a, na.rm = TRUE) # Successfully calculates the mean
+```
+
+
+## Group comparisons
+
+### Summary statistics by group
+Comparing summary statistics across different groups or categories of cases requires that you identify the grouping variable (typically `group_by()`} before calculating the desired summary statistics.
+
+```{r grpby, eval=TRUE, warning=FALSE, message=FALSE}
+  dcps %>%
+    group_by(SchType) %>%  # identify grouping variable
+    summarize(
+      Avg = mean(ProfMath),  # apply functions to each group
+      StDev = sd(ProfMath)
+    )
+```
+
+### Visualize group differences
+One good way of exploring these relationships graphically is to use a boxplot. Note that the syntax is to identify the outcome before the `~` and the grouping variable after (`boxplot(OutcomeVar ~ GroupVar, Data)`):
+
+```{r groupbox,eval=TRUE,collapse=TRUE,out.width="70%",fig.align='center'}
+  boxplot(ProfMath ~ SchType, data = dcps)
+```
+
+### Testing hypotheses
+You can test hypotheses about the relationship between a nominal exposure variable (`GroupingVar`) and a numeric outcome (`OutcomeVar`) using either the $t-$ or $F-$ test. Use `t.test(OutcomeVar ~ GroupVar, Data)` to compare the mean outcome across exactly two groups (i.e. when `GroupVar` is binary). Use `aov(OutcomeVar ~ GroupVar, Data)` when `GroupVar` identifies more than two categories. Note that you need to use `summary()` to view the full `aov()` estimates.
+
+Evaluate the argument that large schools (i.e. where more than 200 students took the test) have a significantly different level of math proficiency than small schools. 
+```{r grouptest,eval=TRUE}
+# t-test (two-group test of equivalence)
+  t.test(ProfMath ~ (NumTested > 200), data = dcps)
+```
+
+While there is a mean difference in math proficiency (31 vs 25), the difference is not statistically significant ($p=0.257$). 
+
+Next consider the possibility that math proficiency differs systematically across type of school. Because `SchType` has more than two values (Elementary, Middle, and High), we use the $F-$test.
+
+```{r anova, eval=TRUE}
+# F-test (multigroup test of equivalence)  
+  ftest = aov(ProfMath ~ SchType, data = dcps)
+  summary(ftest) # view the results of the F-test
+```
+
+Here the results indicate a significant difference in math proficiency by type of school ($F_{2,105}=8.35$, $p<0.001$).

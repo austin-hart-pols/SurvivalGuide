@@ -1,0 +1,78 @@
+\mainmatter
+
+# How to use this guide
+
+This guide introduces the basics of R for data analysis for students in SIS 600: International Affairs Stats & Methods at American University. While it will not answer all of your questions about `R`, we hope you will find it a useful companion to lecture notes and other class materials throughout the semester.
+
+## Download the data
+It is important that you follow along with the guide by replicating the code and analysis presented throughout. You will need two datasets to do this. Use the links below to download both. Then save the files to a project folder for this course.
+
+- *`DCPS testing.RData`* ([download DCPS data here](https://drive.google.com/uc?id=1A-SEFnKH7F44vNPL94gzaTQ9grn4kNUi&export=download))  
+This data from the DC Public School System records the results of the PARCC (Partnership for Assessment of Readiness for College and Careers) Assessment from 2017`-`2018. This version of the data includes the school name, level, and number of students tested, as well as the percentage of students performing at or above grade level in language and math. You can find more information about the test at the [DC PARCC results page](https://osse.dc.gov/parcc).  
+
+- *`biopics.xls`* ([download biopics data here](https://drive.google.com/uc?id=1bLtTz57hDX2m0SKSEJdQeTIl5SKBpRLk&export=download))  
+This is a shortened version of the data behind the story ["'Straight Outta Compton' Is The Rare Biopic Not About White Dudes."](https://fivethirtyeight.com/features/straight-outta-compton-is-the-rare-biopic-not-about-white-dudes/) published on fivethirtyeight.com. It contains IMDB data on 177 biopics from 1915 to 2014. Variables include the sex and race of the lead actor at the center of the biopic and the year in which the film was released. 
+
+## Following along
+Hands on practice is the only way to gain competence in using R for data analysis. To We present code and output throughout the guide so that you have useful examples for reference and, most importantly, for you to practice. When you see a code chunk and output, we want you to follow along by entering the code on your computer and comparing your output to what's given in the guide. Consider a chunk like the one below: 
+
+```{r exguide, eval=TRUE}
+# Summarize miles per gallon (mpg)
+  summary(mtcars$mpg)
+```
+
+Throughout the text, you'll find that annotation and comments follow a single `#` and appear in light blue:
+
+```{r excom}
+# Summarize miles per gallon (mpg)
+```
+
+The actual R commands, below, come in a mix of black, dark blue, and other accent colors. Where possible, they are shown within a pink box. Type and execute these commands in R as you follow along with the guide.
+
+```{r excode}
+  summary(mtcars$mpg)
+```
+
+
+The output from the commands---what you will see in the console window after executing---follows `##`. 
+
+```{r exout, eval=TRUE, echo=FALSE, error=TRUE}
+  summary(mtcars$mpg)
+```
+
+Be sure to check your output against what you find here. If your output is different, or if you get an error message, review your code for typos and errors.
+
+## Error messages
+
+Errors are common! Like any language, R syntax, spelling, and punctuation are critical in writing code. When error messages pop up in your console:  
+
+- Read the error message as some are clear and intuitive.  
+
+- Check your code for typos, capitalization, punctuation.  
+
+Beyond simple coding mistakes, we've found that students frequently encounter two types of errors in this course.
+
+### Function not found
+Consider the following code and corresponding error message:
+
+```{r err1, eval=TRUE, error=TRUE}
+  mydata %>% mean(varX)
+```
+
+Note the specific reference to a missing function (i.e. "could not find function..."). It usually means you need to load a package. In this case, we forgot to load `tidyverse`, which defines the pipe operator, `%>%`.
+
+### Object not found
+Another common issue is that you're asking R to search for an object, file, or dataset, that doesn't exist. Consider the following:
+
+```{r err2, eval=TRUE, error=TRUE}
+# Load the dog dataset
+  dog = read.csv('dogdata.csv')
+```
+The error message indicates that it cannot find the file ("No such file or directory"). In this case, the `dogdata.csv` data set isn't in your project folder. It's often the case that we downloaded a data set but forgot to move it from, e.g., the Downloads folder to our project folder. So move it, and try again.
+
+```{r err3, eval=TRUE, error=TRUE}
+# Calculate mean weight
+  mean(dog$weight)
+```
+
+This error message is similar to the one above. R tells you that it cannot locate the object (dataframe, variable, graph, etc) that you want to work on (in this case, an object named `dog`). Look to see that the object is visible in your Environment window, and either load the missing object ("Oops! Forgot to open the data.") or correct the spelling ("Right, it's capitalized: `Dog`") before trying again.  
