@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>1.3 Error messages | Survival Guide: Conquering R and living through SIS 600</title>
+  <meta name="description" content="A beginner’s guide to mastering R/RStudio and SIS 600." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="1.3 Error messages | Survival Guide: Conquering R and living through SIS 600" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="A beginner’s guide to mastering R/RStudio and SIS 600." />
+  <meta name="github-repo" content="austin-hart-pols/SurvivalGuide" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="1.3 Error messages | Survival Guide: Conquering R and living through SIS 600" />
+  
+  <meta name="twitter:description" content="A beginner’s guide to mastering R/RStudio and SIS 600." />
+  
+
+<meta name="author" content="Austin Hart" />
+<meta name="author" content="Dave Ohls" />
+
+
+<meta name="date" content="2021-02-23" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="following-along.html"/>
+<link rel="next" href="getting-started-with-r-and-rstudio.html"/>
+<script src="libs/header-attrs/header-attrs.js"></script>
+<script src="libs/jquery/jquery.min.js"></script>
+<link href="libs/gitbook/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Suvival Guide</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="how-to-use-this-guide.html"><a href="how-to-use-this-guide.html"><i class="fa fa-check"></i><b>1</b> How to use this guide</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="download-the-data.html"><a href="download-the-data.html"><i class="fa fa-check"></i><b>1.1</b> Download the data</a></li>
+<li class="chapter" data-level="1.2" data-path="following-along.html"><a href="following-along.html"><i class="fa fa-check"></i><b>1.2</b> Following along</a></li>
+<li class="chapter" data-level="1.3" data-path="error-messages.html"><a href="error-messages.html"><i class="fa fa-check"></i><b>1.3</b> Error messages</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="error-messages.html"><a href="error-messages.html#function-not-found"><i class="fa fa-check"></i><b>1.3.1</b> Function not found</a></li>
+<li class="chapter" data-level="1.3.2" data-path="error-messages.html"><a href="error-messages.html#object-not-found"><i class="fa fa-check"></i><b>1.3.2</b> Object not found</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="getting-started-with-r-and-rstudio.html"><a href="getting-started-with-r-and-rstudio.html"><i class="fa fa-check"></i><b>2</b> Getting Started with R and RStudio</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="installing-the-software.html"><a href="installing-the-software.html"><i class="fa fa-check"></i><b>2.1</b> Installing the software</a></li>
+<li class="chapter" data-level="2.2" data-path="the-rstudio-interface.html"><a href="the-rstudio-interface.html"><i class="fa fa-check"></i><b>2.2</b> The RStudio Interface</a></li>
+<li class="chapter" data-level="2.3" data-path="code-chunks.html"><a href="code-chunks.html"><i class="fa fa-check"></i><b>2.3</b> Code chunks</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="code-chunks.html"><a href="code-chunks.html#writing-and-executing"><i class="fa fa-check"></i><b>2.3.1</b> Writing and executing</a></li>
+<li class="chapter" data-level="2.3.2" data-path="code-chunks.html"><a href="code-chunks.html#commenting-with"><i class="fa fa-check"></i><b>2.3.2</b> Commenting with #</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="r-packages.html"><a href="r-packages.html"><i class="fa fa-check"></i><b>2.4</b> R Packages</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="r-packages.html"><a href="r-packages.html#installing-packages"><i class="fa fa-check"></i><b>2.4.1</b> Installing packages</a></li>
+<li class="chapter" data-level="2.4.2" data-path="r-packages.html"><a href="r-packages.html#loading-packages-for-use"><i class="fa fa-check"></i><b>2.4.2</b> Loading packages for use</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="setting-a-directory.html"><a href="setting-a-directory.html"><i class="fa fa-check"></i><b>2.5</b> Setting a directory</a></li>
+<li class="chapter" data-level="2.6" data-path="getting-help-with-r.html"><a href="getting-help-with-r.html"><i class="fa fa-check"></i><b>2.6</b> Getting help with R</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="basics-of-r-programming.html"><a href="basics-of-r-programming.html"><i class="fa fa-check"></i><b>3</b> Basics of R Programming</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="thinking-like-r.html"><a href="thinking-like-r.html"><i class="fa fa-check"></i><b>3.1</b> Thinking like R</a></li>
+<li class="chapter" data-level="3.2" data-path="objects.html"><a href="objects.html"><i class="fa fa-check"></i><b>3.2</b> Objects</a></li>
+<li class="chapter" data-level="3.3" data-path="functions-in-r.html"><a href="functions-in-r.html"><i class="fa fa-check"></i><b>3.3</b> Functions in R</a></li>
+<li class="chapter" data-level="3.4" data-path="the-pipe-operator.html"><a href="the-pipe-operator.html"><i class="fa fa-check"></i><b>3.4</b> The Pipe Operator</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="working-with-data.html"><a href="working-with-data.html"><i class="fa fa-check"></i><b>4</b> Working with data</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="importing-data.html"><a href="importing-data.html"><i class="fa fa-check"></i><b>4.1</b> Importing data</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="importing-data.html"><a href="importing-data.html#r-data-.rdata"><i class="fa fa-check"></i><b>4.1.1</b> R data (.rdata)</a></li>
+<li class="chapter" data-level="4.1.2" data-path="importing-data.html"><a href="importing-data.html#delimited-.csv-files"><i class="fa fa-check"></i><b>4.1.2</b> Delimited (.csv) files</a></li>
+<li class="chapter" data-level="4.1.3" data-path="importing-data.html"><a href="importing-data.html#excel-.xls-.xlsx-files"><i class="fa fa-check"></i><b>4.1.3</b> Excel (.xls, .xlsx) files</a></li>
+<li class="chapter" data-level="4.1.4" data-path="importing-data.html"><a href="importing-data.html#stata-.dta-or-spss-.sav-files"><i class="fa fa-check"></i><b>4.1.4</b> Stata (.dta) or SPSS (.sav) files</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="a-first-look-at-your-data.html"><a href="a-first-look-at-your-data.html"><i class="fa fa-check"></i><b>4.2</b> A first look at your data</a></li>
+<li class="chapter" data-level="4.3" data-path="referencing-variables-of-a-data-frame.html"><a href="referencing-variables-of-a-data-frame.html"><i class="fa fa-check"></i><b>4.3</b> Referencing variables of a data frame</a></li>
+<li class="chapter" data-level="4.4" data-path="saving-your-work.html"><a href="saving-your-work.html"><i class="fa fa-check"></i><b>4.4</b> Saving your work</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="saving-your-work.html"><a href="saving-your-work.html#saving-an-r-script"><i class="fa fa-check"></i><b>4.4.1</b> Saving an R script</a></li>
+<li class="chapter" data-level="4.4.2" data-path="saving-your-work.html"><a href="saving-your-work.html#saving-a-data-frame"><i class="fa fa-check"></i><b>4.4.2</b> Saving a data frame</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="descriptive-statistics.html"><a href="descriptive-statistics.html"><i class="fa fa-check"></i><b>5</b> Descriptive statistics</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="describing-one-variable.html"><a href="describing-one-variable.html"><i class="fa fa-check"></i><b>5.1</b> Describing one variable</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="describing-one-variable.html"><a href="describing-one-variable.html#summary-statistics"><i class="fa fa-check"></i><b>5.1.1</b> Summary statistics</a></li>
+<li class="chapter" data-level="5.1.2" data-path="describing-one-variable.html"><a href="describing-one-variable.html#graphing-the-distribution"><i class="fa fa-check"></i><b>5.1.2</b> Graphing the distribution</a></li>
+<li class="chapter" data-level="5.1.3" data-path="describing-one-variable.html"><a href="describing-one-variable.html#testing-hypotheses"><i class="fa fa-check"></i><b>5.1.3</b> Testing hypotheses</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="omitting-missing-values.html"><a href="omitting-missing-values.html"><i class="fa fa-check"></i><b>5.2</b> Omitting missing values</a></li>
+<li class="chapter" data-level="5.3" data-path="group-comparisons.html"><a href="group-comparisons.html"><i class="fa fa-check"></i><b>5.3</b> Group comparisons</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="group-comparisons.html"><a href="group-comparisons.html#summary-statistics-by-group"><i class="fa fa-check"></i><b>5.3.1</b> Summary statistics by group</a></li>
+<li class="chapter" data-level="5.3.2" data-path="group-comparisons.html"><a href="group-comparisons.html#visualize-group-differences"><i class="fa fa-check"></i><b>5.3.2</b> Visualize group differences</a></li>
+<li class="chapter" data-level="5.3.3" data-path="group-comparisons.html"><a href="group-comparisons.html#testing-hypotheses-1"><i class="fa fa-check"></i><b>5.3.3</b> Testing hypotheses</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="frequency-and-cross-tabulation.html"><a href="frequency-and-cross-tabulation.html"><i class="fa fa-check"></i><b>6</b> Frequency and cross tabulation</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="describing-one-variable-1.html"><a href="describing-one-variable-1.html"><i class="fa fa-check"></i><b>6.1</b> Describing one variable</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="describing-one-variable-1.html"><a href="describing-one-variable-1.html#frequency-tables"><i class="fa fa-check"></i><b>6.1.1</b> Frequency tables</a></li>
+<li class="chapter" data-level="6.1.2" data-path="describing-one-variable-1.html"><a href="describing-one-variable-1.html#bar-charts"><i class="fa fa-check"></i><b>6.1.2</b> Bar charts</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="cross-tabulation.html"><a href="cross-tabulation.html"><i class="fa fa-check"></i><b>6.2</b> Cross-tabulation</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="regression-analysis.html"><a href="regression-analysis.html"><i class="fa fa-check"></i><b>7</b> Regression analysis</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="correlation.html"><a href="correlation.html"><i class="fa fa-check"></i><b>7.1</b> Correlation</a></li>
+<li class="chapter" data-level="7.2" data-path="ols-regression.html"><a href="ols-regression.html"><i class="fa fa-check"></i><b>7.2</b> OLS regression</a></li>
+<li class="chapter" data-level="7.3" data-path="scatter-with-linear-fit.html"><a href="scatter-with-linear-fit.html"><i class="fa fa-check"></i><b>7.3</b> Scatter with linear fit</a></li>
+<li class="chapter" data-level="7.4" data-path="logistic-regression.html"><a href="logistic-regression.html"><i class="fa fa-check"></i><b>7.4</b> Logistic regression</a></li>
+<li class="chapter" data-level="7.5" data-path="making-regression-tables.html"><a href="making-regression-tables.html"><i class="fa fa-check"></i><b>7.5</b> Making regression tables</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="doing-more-with-data-frames.html"><a href="doing-more-with-data-frames.html"><i class="fa fa-check"></i><b>8</b> Doing more with data frames</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="filtersubset-data.html"><a href="filtersubset-data.html"><i class="fa fa-check"></i><b>8.1</b> Filter/subset data</a></li>
+<li class="chapter" data-level="8.2" data-path="selecting-your-variables.html"><a href="selecting-your-variables.html"><i class="fa fa-check"></i><b>8.2</b> Selecting your variables</a></li>
+<li class="chapter" data-level="8.3" data-path="create-new-variables.html"><a href="create-new-variables.html"><i class="fa fa-check"></i><b>8.3</b> Create new variables</a></li>
+<li class="chapter" data-level="8.4" data-path="appending-and-merging-data.html"><a href="appending-and-merging-data.html"><i class="fa fa-check"></i><b>8.4</b> Appending and merging data</a>
+<ul>
+<li class="chapter" data-level="8.4.1" data-path="appending-and-merging-data.html"><a href="appending-and-merging-data.html#appending-new-cases"><i class="fa fa-check"></i><b>8.4.1</b> Appending new cases</a></li>
+<li class="chapter" data-level="8.4.2" data-path="appending-and-merging-data.html"><a href="appending-and-merging-data.html#merging"><i class="fa fa-check"></i><b>8.4.2</b> Merging</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="basic-visualization.html"><a href="basic-visualization.html"><i class="fa fa-check"></i><b>9</b> Basic visualization</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="graphing-in-base-r.html"><a href="graphing-in-base-r.html"><i class="fa fa-check"></i><b>9.1</b> Graphing in base R</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="graphing-in-base-r.html"><a href="graphing-in-base-r.html#describe-one-variable"><i class="fa fa-check"></i><b>9.1.1</b> Describe one variable</a></li>
+<li class="chapter" data-level="9.1.2" data-path="graphing-in-base-r.html"><a href="graphing-in-base-r.html#visualizing-relationships"><i class="fa fa-check"></i><b>9.1.2</b> Visualizing relationships</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="professional-formatting.html"><a href="professional-formatting.html"><i class="fa fa-check"></i><b>9.2</b> Professional formatting</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="professional-formatting.html"><a href="professional-formatting.html#titles-and-labels"><i class="fa fa-check"></i><b>9.2.1</b> Titles and labels</a></li>
+<li class="chapter" data-level="9.2.2" data-path="professional-formatting.html"><a href="professional-formatting.html#axis-options"><i class="fa fa-check"></i><b>9.2.2</b> Axis options</a></li>
+<li class="chapter" data-level="9.2.3" data-path="professional-formatting.html"><a href="professional-formatting.html#graphical-parameters"><i class="fa fa-check"></i><b>9.2.3</b> Graphical parameters</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="exportingsaving-graphs.html"><a href="exportingsaving-graphs.html"><i class="fa fa-check"></i><b>9.3</b> Exporting/saving graphs</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://bookdown.org" target="_blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Survival Guide: Conquering R and living through SIS 600</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="error-messages" class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> Error messages</h2>
+<p>Errors are common! Like any language, R syntax, spelling, and punctuation are critical in writing code. When error messages pop up in your console:</p>
+<ul>
+<li><p>Read the error message as some are clear and intuitive.</p></li>
+<li><p>Check your code for typos, capitalization, punctuation.</p></li>
+</ul>
+<p>Beyond simple coding mistakes, we’ve found that students frequently encounter two types of errors in this course.</p>
+<div id="function-not-found" class="section level3" number="1.3.1">
+<h3><span class="header-section-number">1.3.1</span> Function not found</h3>
+<p>Consider the following code and corresponding error message:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r mychunk"><code class="sourceCode r"><span id="cb6-1"><a href="error-messages.html#cb6-1" aria-hidden="true" tabindex="-1"></a>  mydata <span class="sc">%&gt;%</span> <span class="fu">mean</span>(varX)</span></code></pre></div>
+<pre><code>## Error in mydata %&gt;% mean(varX): could not find function &quot;%&gt;%&quot;</code></pre>
+<p>Note the specific reference to a missing function (i.e. “could not find function…”). It usually means you need to load a package. In this case, we forgot to load <code>tidyverse</code>, which defines the pipe operator, <code>%&gt;%</code>.</p>
+</div>
+<div id="object-not-found" class="section level3" number="1.3.2">
+<h3><span class="header-section-number">1.3.2</span> Object not found</h3>
+<p>Another common issue is that you’re asking R to search for an object, file, or dataset, that doesn’t exist. Consider the following:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r mychunk"><code class="sourceCode r"><span id="cb8-1"><a href="error-messages.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the dog dataset</span></span>
+<span id="cb8-2"><a href="error-messages.html#cb8-2" aria-hidden="true" tabindex="-1"></a>  dog <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">&#39;dogdata.csv&#39;</span>)</span></code></pre></div>
+<pre><code>## Warning in file(file, &quot;rt&quot;): cannot open file
+## &#39;dogdata.csv&#39;: No such file or directory</code></pre>
+<pre><code>## Error in file(file, &quot;rt&quot;): cannot open the connection</code></pre>
+<p>The error message indicates that it cannot find the file (“No such file or directory”). In this case, the <code>dogdata.csv</code> data set isn’t in your project folder. It’s often the case that we downloaded a data set but forgot to move it from, e.g., the Downloads folder to our project folder. So move it, and try again.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r mychunk"><code class="sourceCode r"><span id="cb11-1"><a href="error-messages.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate mean weight</span></span>
+<span id="cb11-2"><a href="error-messages.html#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(dog<span class="sc">$</span>weight)</span></code></pre></div>
+<pre><code>## Error in mean(dog$weight): object &#39;dog&#39; not found</code></pre>
+<p>This error message is similar to the one above. R tells you that it cannot locate the object (dataframe, variable, graph, etc) that you want to work on (in this case, an object named <code>dog</code>). Look to see that the object is visible in your Environment window, and either load the missing object (“Oops! Forgot to open the data.”) or correct the spelling (“Right, it’s capitalized: <code>Dog</code>”) before trying again.</p>
+
+</div>
+</div>
+<!-- </div> -->
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="following-along.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="getting-started-with-r-and-rstudio.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook/js/app.min.js"></script>
+<script src="libs/gitbook/js/lunr.js"></script>
+<script src="libs/gitbook/js/clipboard.min.js"></script>
+<script src="libs/gitbook/js/plugin-search.js"></script>
+<script src="libs/gitbook/js/plugin-sharing.js"></script>
+<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook/js/jquery.highlight.js"></script>
+<script src="libs/gitbook/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/austin-hart-pols/SurvivalGuide/00-UsingGuide.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["SurvivR.pdf", "SurvivR.epub", "SurvivR.mobi"],
+"toc": {
+"collapse": "none"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
